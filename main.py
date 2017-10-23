@@ -6,13 +6,13 @@ app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogz@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
-app.secret_key = 'hellowowcool!'
+app.secret_key = 'sjddfhk'
 
 class Blog(db.Model):       #####--- SQL database Blog
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120))
-    body = db.Column(db.String(2000))
+    title = db.Column(db.String(140))
+    body = db.Column(db.String(1200))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, title, body, owner):
@@ -105,9 +105,9 @@ def blog():
         if not id:
             return render_template('blog.html', blogs=blogs, owner=owner)
         else:
-            if "blg=" in str(id):
-                blg = int(request.args.get('blg'))
-                blog = Blog.query.get(blg)
+            if "b=" in str(id):
+                b = int(request.args.get('b'))
+                blog = Blog.query.get(b)
                 return render_template('singlepost.html', blog=blog)
             if "user=" in str(id):
                 user = request.args.get('user')
@@ -137,8 +137,8 @@ def new_post():
             db.session.add(new_post)
             db.session.commit()
 
-            blg = new_post.id
-            blog = Blog.query.get(blg)
+            b = new_post.id
+            blog = Blog.query.get(b)
             return render_template('singlepost.html', blog=blog)
 
         return redirect('/blogz')
