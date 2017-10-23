@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Blogz!</h1>
+    <hr/>
+    {% if blogs|length == 0 %}
+    <p>no blogs yet</p>
+    {% else %}
+      {% for blog in blogs %}
+      <div>
+        <a href="/blogz?b={{blog.id}}"><h2>{{blog.title}}</h2></a>
+        <p>{{blog.body}}</p>
+        <div>written by
+          <a href="blogz?user={{blog.owner}}">{{blog.owner}}</div></a>
+        <hr  />
+      </div>
+      {% endfor%}
+    {% endif %}
+{% endblock %}
