@@ -95,28 +95,6 @@ def index():
             return render_template('singleuser.html', user=user, blogs=blogs)
 
 
-
-@app.route('/blogz', methods=['POST', 'GET'])
-def blog():
-    blogs = Blog.query.all()
-    owner = Blog.query.all()
-    id = request.query_string
-    if request.method == 'GET':
-        if not id:
-            return render_template('blog.html', blogs=blogs, owner=owner)
-        else:
-            if "b=" in str(id):
-                b = int(request.args.get('b'))
-                blog = Blog.query.get(b)
-                return render_template('singlepost.html', blog=blog)
-            if "user=" in str(id):
-                user = request.args.get('user')
-                owner = User.query.filter_by(username=user).first()
-                blogs = Blog.query.filter_by(owner_id=owner.id).all()
-                return render_template('singleuser.html', blogs=blogs)
-
-
-
 @app.route('/newpost', methods=['POST', 'GET'])
 def new_post():
     owner = User.query.filter_by(username=session['username']).first()
@@ -144,6 +122,25 @@ def new_post():
         return redirect('/blogz')
 
     return render_template('newpost.html')
+
+@app.route('/blogz', methods=['POST', 'GET'])
+def blog():
+    blogs = Blog.query.all()
+    owner = Blog.query.all()
+    id = request.query_string
+    if request.method == 'GET':
+        if not id:
+            return render_template('blog.html', blogs=blogs, owner=owner)
+        else:
+            if "b=" in str(id):
+                b = int(request.args.get('b'))
+                blog = Blog.query.get(b)
+                return render_template('singlepost.html', blog=blog)
+            if "user=" in str(id):
+                user = request.args.get('user')
+                owner = User.query.filter_by(username=user).first()
+                blogs = Blog.query.filter_by(owner_id=owner.id).all()
+                return render_template('singleuser.html', blogs=blogs)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
