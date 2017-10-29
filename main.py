@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:blogz@localhost:8889/blogz'
@@ -104,20 +105,21 @@ def new_post():
         body = request.form['body']
 
         if not title:
-            flash('Title cannot be blank!', 'error')
+            flash('Title cannot be blank.')
             return redirect('/newpost')
         if not body:
-            flash('Blog cannot be blank!', 'error')
+            flash('Enter a blog')
             return redirect('/newpost')
 
         else:
             new_post = Blog(title, body, owner)
             db.session.add(new_post)
             db.session.commit()
-
-            b = new_post.id
-            blog = Blog.query.get(b)
-            return render_template('singlepost.html', blog=blog)
+            id = str(new_post.id)
+            return redirect('/blogz?b='+ id)
+            #b = new_post.id    
+            #blog = Blog.query.get(b)
+            #return render_template('singlepost.html', blog=blog)
 
         return redirect('/blogz')
 
