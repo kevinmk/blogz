@@ -117,9 +117,7 @@ def new_post():
             db.session.commit()
             id = str(new_post.id)
             return redirect('/blogz?b='+ id)
-            #b = new_post.id    
-            #blog = Blog.query.get(b)
-            #return render_template('singlepost.html', blog=blog)
+
 
         return redirect('/blogz')
 
